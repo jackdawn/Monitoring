@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Server Metrics Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f9fb;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .server-card {
+            background-color: #fff;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .server-card h2 {
+            margin-top: 0;
+            color: #007BFF;
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .metric:last-child {
+            border-bottom: none;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .value {
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .metric {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .value {
+                margin-top: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Remote Server Metrics Dashboard</h1>
+
+        {% for metric in metrics %}
+            <div class="server-card">
+                <h2>{{ metric.server.name }} ({{ metric.server.ip }})</h2>
+
+                <div class="metric">
+                    <span class="label">Operating System:</span>
+                    <span class="value">{{ metric.server.os_type }}</span>
+                </div>
+
+                <div class="metric">
+                    <span class="label">CPU Utilization:</span>
+                    <span class="value">{{ metric.cpu_utilization }}</span>
+                </div>
+
+                <div class="metric">
+                    <span class="label">Disk Space:</span>
+                    <span class="value">{{ metric.disk_space }}</span>
+                </div>
+
+                <div class="metric">
+                    <span class="label">Idle Time:</span>
+                    <span class="value">{{ metric.idle_time }}</span>
+                </div>
+
+                <div class="metric">
+                    <span class="label">Last Write Time:</span>
+                    <span class="value">{{ metric.last_write_time }}</span>
+                </div>
+
+                <div class="metric">
+                    <span class="label">Last Write File Path:</span>
+                    <span class="value">{{ metric.last_write_path }}</span>
+                </div>
+
+                <div class="metric">
+                    <span class="label">Last Logged-In Users:</span>
+                    <span class="value" style="white-space: pre-line;">{{ metric.last_logged_in_users }}</span>
+                </div>
+
+                <div class="metric">
+                    <span class="label">Last Login Time:</span>
+                    <span class="value">{{ metric.last_logged_in_time }}</span>
+                </div>
+
+                <div class="metric">
+                    <span class="label">Last App Event Time:</span>
+                    <span class="value">{{ metric.last_app_event_time }}</span>
+                </div>
+
+                <div class="metric">
+                    <span class="label">Last Updated:</span>
+                    <span class="value">{{ metric.updated_on|date:"Y-m-d H:i:s" }}</span>
+                </div>
+            </div>
+        {% empty %}
+            <p>No metrics available yet. Add servers and fetch metrics to view data.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
